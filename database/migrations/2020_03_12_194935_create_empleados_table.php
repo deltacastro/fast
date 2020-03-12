@@ -19,6 +19,7 @@ class CreateEmpleadosTable extends Migration
             $table->unsignedInteger('estadoCivil_id');
             $table->date('fecha_ingreso');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
