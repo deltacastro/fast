@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::group(['namespace' => 'admin', 'prefix' => 'admin'], function(){
     Route::group(['prefix' => 'usuarios'], function(){
@@ -30,7 +30,15 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin'], function(){
     });
 });
 
+Route::group(['namespace' => 'TI', 'prefix' => 'ti'], function(){
+    Route::group(['prefix' => 'servicio'], function(){
+        Route::get('', 'ServicioController@index')->name('ti.servicio.index');
+    });
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+
 
 Route::get('/test', function(){
     return view('layouts.delta');
