@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Cargo;
+use App\Departamento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
@@ -13,6 +15,8 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->mUser = new User;
+        $this->mCargo =  new Cargo;
+        $this->mDepartamento =  new Departamento;
     }
 
     public function index(Request $request)
@@ -25,8 +29,10 @@ class UsersController extends Controller
 
     public function create(Request $request)
     {
+        $cargos = $this->mCargo->select('id', 'nombre', 'descripcion')->get();
+        $departamentos = $this->mDepartamento->select('id', 'nombre', 'descripcion')->get();
         if ($request->ajax()) {
-            return view('admin.user._form');
+            return view('admin.user._form', compact('cargos', 'departamentos'));
         }
         return view('admin.user.create');
     }
