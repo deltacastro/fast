@@ -130,6 +130,12 @@
             const departamento_id = select_departamento.val()
             const cargo_id = select_cargo.val()
 
+            // Valdamos si existe
+
+            if (validateRepeat(departamento_id, cargo_id)) {
+                return true
+            }
+
             // Se busca el elemento option seleccionado
             const option_departamento = select_departamento.children('option:selected')
             const option_cargo = select_cargo.children('option:selected')
@@ -143,11 +149,11 @@
 
             // Se crean los td's del departamento y cargo
             const td_departamento = `
-                <input name="empleado_cargo[${random_string}][departamento_id]" value="${departamento_id}" hidden>
+                <input class="departamento" name="empleado_cargo[${random_string}][departamento_id]" value="${departamento_id}" hidden>
                 ${departamento_nombre}
             `
             const td_cargo = `
-                <input name="empleado_cargo[${random_string}][cargo_id]" value="${cargo_id}" hidden>
+                <input class="cargo" name="empleado_cargo[${random_string}][cargo_id]" value="${cargo_id}" hidden>
                 ${cargo_nombre}
             `
 
@@ -182,11 +188,30 @@
 
     function deleteRow(idRow)
     {
-        console.log('llega a fufncion delete con el id', idRow)
-
         const element = $(`#${idRow}`)
         element.fadeOut('fast', function(){
             element.remove()
         })
+    }
+
+    function validateRepeat(departamento_id, cargo_id)
+    {
+        const table = $('#table-departamento-cargo')
+        const selector = `input[value="${departamento_id}"][class="departamento"]`
+        let exist = false
+        const departamento = table
+        .children('tbody')
+        .find(selector)
+        .each(function(index){
+            let name = this.name
+            name = name.replace('departamento_id', 'cargo_id')
+            const cargo = table.find(`input[name="${name}"][value="${cargo_id}"]`)
+            if (cargo.val() !== undefined) {
+                exist = true
+                return false
+            }
+        })
+        return exist
+
     }
 </script>
