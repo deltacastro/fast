@@ -158,7 +158,7 @@
 
             // Extructura
             const table_row = `
-                <tr id="${random_string}">
+                <tr style="display:none" id="${random_string}">
                     <td>
                         ${td_departamento}
                     </td>
@@ -171,7 +171,22 @@
                 </tr>
             `
 
-            table_tbody.append(table_row)
+            table_tbody.prepend(table_row)
+            $(`#${random_string}`).fadeIn('fast')
         })
     })
+
+    $('#table-departamento-cargo').on('click', '.departamento-cargo-eliminar', function(){
+        deleteRow($(this).data('id'))
+    })
+
+    function deleteRow(idRow)
+    {
+        console.log('llega a fufncion delete con el id', idRow)
+
+        const element = $(`#${idRow}`)
+        element.fadeOut('fast', function(){
+            element.remove()
+        })
+    }
 </script>
