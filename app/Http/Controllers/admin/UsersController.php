@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Cargo;
 use App\Departamento;
+use App\Estado_Civil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
@@ -17,6 +18,7 @@ class UsersController extends Controller
         $this->mUser = new User;
         $this->mCargo =  new Cargo;
         $this->mDepartamento =  new Departamento;
+        $this->mEstadoCivil =  new Estado_Civil;
     }
 
     public function index(Request $request)
@@ -31,8 +33,9 @@ class UsersController extends Controller
     {
         $cargos = $this->mCargo->select('id', 'nombre', 'descripcion')->get();
         $departamentos = $this->mDepartamento->select('id', 'nombre', 'descripcion')->get();
+        $estadosCiviles = $this->mEstadoCivil->select('id', 'nombre')->get();
         if ($request->ajax()) {
-            return view('admin.user._form', compact('cargos', 'departamentos'));
+            return view('admin.user._form', compact('cargos', 'departamentos', 'estadosCiviles'));
         }
         return view('admin.user.create');
     }

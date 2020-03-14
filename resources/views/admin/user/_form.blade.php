@@ -59,7 +59,16 @@
         </div>
         <div class="form-group col-12 col-lg-6">
             <label for="empleado[estadoCivil_id]">Estado civil</label>
-            <input class="form-control" type="text" name="empleado[estadoCivil_id]" value="{{ isset($user) ? '' : '' }}">
+            {{-- <input class="form-control" type="text" name="empleado[estadoCivil_id]" value="{{ isset($user) ? '' : '' }}"> --}}
+            <select class="custom-select" id="empleado_departamento" name="empleado[estadoCivil_id]">
+                {{-- <option value="null" selected disabled>Seeccione un departamento</option> --}}
+                @forelse ($estadosCiviles as $estadoCivil)
+                    <option value="{{$estadoCivil->id}}" title="{{$estadoCivil->nombre}}">{{$estadoCivil->nombre}}</option>
+                @empty
+                    <option value="null" disabled>...</option>
+                @endforelse
+
+            </select>
             <span class="invalid-feedback" role="alert">
             </span>
         </div>
