@@ -4,11 +4,13 @@ namespace App\Http\Controllers\admin;
 
 use App\Cargo;
 use App\Departamento;
+use App\Empleado;
 use App\Estado_Civil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\People;
 use App\User;
 
 class UsersController extends Controller
@@ -16,6 +18,8 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->mUser = new User;
+        $this->mPeople = new People;
+        $this->mEmpleado = new Empleado;
         $this->mCargo =  new Cargo;
         $this->mDepartamento =  new Departamento;
         $this->mEstadoCivil =  new Estado_Civil;
@@ -42,6 +46,14 @@ class UsersController extends Controller
 
     public function store(StoreRequest $request)
     {
+        $peopleCreated = $this->mPeople->guardar($request->people);
+        $request->merge(['people_id' => $peopleCreated->id]);
+        $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
+        $request->merge(['empleado' => $empleadoData]);
+        $empleadoCreated = $this->mEmpleado->guardar($request->empleado);
+        // foreach ($request as $key => $value) {
+        //     # code...
+        }
         $this->mUser->guardar($request->all());
         if ($request->ajax()) {
             return response()->json([
