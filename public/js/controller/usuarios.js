@@ -91,12 +91,20 @@ function requestErrors(request)
 }
 
 function renderErrorFor(field, errors) {
-    let inputField = $(`input[name="${field}"]`)
+    let nameField = nestedName(field)
+    let inputField = $(`input[name="${nameField}"]`)
     let content = `
         <strong>${errors[field][0]}</strong>
     `
     inputField.addClass('is-invalid')
     inputField.next('.invalid-feedback').html(content)
+}
+
+function nestedName(name){
+    let split_name = name.split('.')
+    console.log(split_name)
+
+    return split_name.length > 1 ? `${split_name[0]}[${split_name[1]}]` : name
 }
 
 function resetRenderError() {
