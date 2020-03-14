@@ -28,6 +28,9 @@ class StoreRequest extends FormRequest
             'username' => 'required|max:20|min:5|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|min:6|confirmed',
+            'people.nombre' => 'required|max:200',
+            'people.paterno' => 'required|max:200',
+            'people.materno' => 'nullable|max:200',
         ];
     }
 
@@ -41,7 +44,10 @@ class StoreRequest extends FormRequest
         return [
             'username' => 'Usuario',
             'correo' => 'Correo',
-            'password' => 'Contraseña'
+            'password' => 'Contraseña',
+            'people.nombre' => 'Nombre',
+            'people.paterno' => 'apellido Paterno',
+            'people.materno' => 'apellido Materno',
         ];
     }
 }
