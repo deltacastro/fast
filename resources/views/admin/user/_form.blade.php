@@ -159,7 +159,7 @@
 
             // Se crea elemento para el boton eliminar
             const button_delete = `
-                <button type="button" data-id="${random_string}" class="form-control btn btn-primary departamento-cargo-eliminar">Eliminar</button>
+                <button type="button" data-id="${random_string}" class="form-control btn btn-danger departamento-cargo-eliminar">Eliminar</button>
             `
 
             // Extructura
