@@ -32,8 +32,7 @@ class StoreRequest extends FormRequest
             'people.paterno' => 'required|max:200',
             'people.materno' => 'nullable|max:200',
             'empleado.fecha_ingreso' => 'required|date',
-            'empleado.estadoCivil_id' => 'required|exists:estado_civil,id',
-            // 'people.materno' => 'nullable|max:200',
+            'empleado.estadoCivil_id' => 'required|exists:estado_civil,id'
         ];
     }
 
@@ -52,7 +51,7 @@ class StoreRequest extends FormRequest
             'people.paterno' => 'apellido Paterno',
             'people.materno' => 'apellido Materno',
             'empleado.fecha_ingreso' => 'Fecha de ingreso',
-            'empleado.estadoCivil_id' => 'Estado civil',
+            'empleado.estadoCivil_id' => 'Estado civil'
         ];
     }
 }
