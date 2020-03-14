@@ -92,7 +92,7 @@ function requestErrors(request)
 
 function renderErrorFor(field, errors) {
     let nameField = nestedName(field)
-    let inputField = $(`input[name="${nameField}"]`)
+    let inputField = $(`[name="${nameField}"]`)
     let content = `
         <strong>${errors[field][0]}</strong>
     `
@@ -110,7 +110,7 @@ function nestedName(name){
 function resetRenderError() {
     console.log('entra')
 
-    let inputField = $(`${form_nuevo_usuario} input:not([name="password_confirmation"])`)
+    let inputField = $(`${form_nuevo_usuario} input:not([name="password_confirmation"]), ${form_nuevo_usuario} select:not(.no-validate)`)
     inputField.removeClass("is-invalid")
     inputField.addClass("is-valid")
     inputField.next('.invalid-feedback').html('')

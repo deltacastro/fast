@@ -78,7 +78,7 @@
         <div class="form-group col-12 col-lg-5">
             <label for="empleado_departamento">Departamento</label>
             {{-- <input class="form-control" type="text" name="empleado_departamento[departamento_id]" value="{{ isset($user) ? '' : '' }}"> --}}
-            <select class="custom-select" id="empleado_departamento">
+            <select class="custom-select no-validate" id="empleado_departamento">
                 {{-- <option value="null" selected disabled>Seeccione un departamento</option> --}}
                 @forelse ($departamentos as $departamento)
                     <option value="{{$departamento->id}}" title="{{$departamento->descripcion}}">{{$departamento->nombre}}</option>
@@ -93,7 +93,7 @@
         <div class="form-group col-12 col-lg-5">
             <label for="empleado_cargo">Cargo</label>
             {{-- <input class="form-control" type="text" name="empleado_departamento[cargo_id]" value="{{ isset($user) ? '' : '' }}"> --}}
-            <select class="custom-select" name="empleado_cargo" id="empleado_cargo">
+            <select class="custom-select no-validate" name="empleado_cargo" id="empleado_cargo">
                 {{-- <option value="null" selected disabled>Seleccione un cargo</option> --}}
                 @forelse ($cargos as $cargo)
                     <option value="{{$cargo->id}}" title="{{$cargo->descripcion}}">{{$cargo->nombre}}</option>
