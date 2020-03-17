@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $data ? $this->find($model->id) : false;
     }
 
+    public function persona()
+    {
+        return $this->belongsTo(People::class, 'people_id');
+    }
+
     public function scopeBuscar($query, $param) {
         if ($param != null) {
             $query->where(function($query2) use ($param) {
