@@ -53,13 +53,13 @@ class UsersController extends Controller
         $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
         $request->merge(['empleado' => $empleadoData]);
         $empleadoCreated = $this->mEmpleado->guardar($request->empleado);
-        // foreach ($request->empleado_cargo as $row) {
-        //     $this->mEmpleadoDepartamento->firstOrCreate([
-        //         'empleado_id' => $empleadoCreated->id,
-        //         'cargo_id' => $row->cargo_id,
-        //         'departamento_id' => $row->departamento_id,
-        //     ]);
-        // }
+        foreach ($request->empleado_cargo as $row) {
+            $this->mEmpleadoDepartamento->firstOrCreate([
+                'empleado_id' => $empleadoCreated->id,
+                'cargo_id' => $row['cargo_id'],
+                'departamento_id' => $row['departamento_id'],
+            ]);
+        }
         $this->mUser->guardar($request->all());
         if ($request->ajax()) {
             return response()->json([
@@ -72,8 +72,11 @@ class UsersController extends Controller
 
     public function edit(User $user, Request $request)
     {
+        $cargos = $this->mCargo->select('id', 'nombre', 'descripcion')->get();
+        $departamentos = $this->mDepartamento->select('id', 'nombre', 'descripcion')->get();
+        $estadosCiviles = $this->mEstadoCivil->select('id', 'nombre')->get();
         if ($request->ajax()) {
-            return view('admin.user._form', compact('user'));
+            return view('admin.user._form', compact('user', 'cargos', 'departamentos', 'estadosCiviles'));
         }
         return view('admin.user.create', compact('user'));
     }
