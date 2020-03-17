@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Cargo;
 use App\Departamento;
 use App\Empleado;
+use App\Empleado_Departamento;
 use App\Estado_Civil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,6 +24,7 @@ class UsersController extends Controller
         $this->mCargo =  new Cargo;
         $this->mDepartamento =  new Departamento;
         $this->mEstadoCivil =  new Estado_Civil;
+        $this->mEmpleadoDepartamento = new Empleado_Departamento;
     }
 
     public function index(Request $request)
@@ -51,8 +53,12 @@ class UsersController extends Controller
         $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
         $request->merge(['empleado' => $empleadoData]);
         $empleadoCreated = $this->mEmpleado->guardar($request->empleado);
-        // foreach ($request as $key => $value) {
-        //     # code...
+        foreach ($request->empleado_cargo as $row) {
+            $this->mEmpleadoDepartamento->firstOrCreate([
+                'empleado_id' => $empleadoCreated->id,
+                'cargo_id' => $row->cargo_id,
+                'departamento_id' => $row->departamento_id,
+            ]);
         }
         $this->mUser->guardar($request->all());
         if ($request->ajax()) {
