@@ -53,13 +53,13 @@ class UsersController extends Controller
         $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
         $request->merge(['empleado' => $empleadoData]);
         $empleadoCreated = $this->mEmpleado->guardar($request->empleado);
-        foreach ($request->empleado_cargo as $row) {
-            $this->mEmpleadoDepartamento->firstOrCreate([
-                'empleado_id' => $empleadoCreated->id,
-                'cargo_id' => $row->cargo_id,
-                'departamento_id' => $row->departamento_id,
-            ]);
-        }
+        // foreach ($request->empleado_cargo as $row) {
+        //     $this->mEmpleadoDepartamento->firstOrCreate([
+        //         'empleado_id' => $empleadoCreated->id,
+        //         'cargo_id' => $row->cargo_id,
+        //         'departamento_id' => $row->departamento_id,
+        //     ]);
+        // }
         $this->mUser->guardar($request->all());
         if ($request->ajax()) {
             return response()->json([
