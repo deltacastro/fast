@@ -39,4 +39,9 @@ class Empleado extends Model
         $data = $model->fill($data)->save();
         return $data ? $this->find($model->id) : false;
     }
+
+    public function departamentoCargos()
+    {
+        return $this->hasMany(Empleado_Departamento::class, 'empleado_id');
+    }
 }
