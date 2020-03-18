@@ -32,22 +32,24 @@ $('#ajaxTable').on('click', '.edit-user', function(e){
 $('#ajaxTable').on('click', '.delete-user', function(e){
     e.preventDefault()
     const target = $(this).data('target')
-    console.log(target);
+    const anchor = $(this)
+    const previousHtml = anchor.html()
+    anchor.html('<span class="spinner-border" role="status" aria-hidden="true"></span>')
 
     $.post($(this).attr('href'), $(target).serialize())
         .done(function(response){
-            console.log(response, 'done')
-            // resetRenderError()
-            // addMsg()
-            // reloadTable()
+            if (response.eliminado == 0){
+                anchor.removeClass('text-danger')
+                anchor.addClass('text-success')
+                anchor.html('<i class="fas fa-2x fa-user"></i>')
+            } else if (response.eliminado == 1){
+                anchor.removeClass('text-success')
+                anchor.addClass('text-danger')
+                anchor.html('<i class="fas fa-2x fa-user-slash"></i>')
+            }
         })
         .fail(function(data){
-            console.log('fail')
-            // requestErrors(data.responseJSON)
-        })
-        .always(function(response){
-            console.log(response, 'awlays')
-            // btnElement.html(btnLabel)
+            anchor.html(previousHtml)
         })
 })
 
@@ -62,17 +64,14 @@ $('.modal-btn-true').on('click', function(){
 
     $.post($(this).data('postUrl'), $(form_nuevo_usuario).serialize())
         .done(function(response){
-            console.log(response, 'done')
             resetRenderError()
             addMsg()
             reloadTable()
         })
         .fail(function(data){
-            console.log('fail')
             requestErrors(data.responseJSON)
         })
         .always(function(response){
-            console.log(response, 'awlays')
             btnElement.html(btnLabel)
         })
 })
@@ -83,7 +82,6 @@ function requestErrors(request)
     if (request.errors) {
         resetRenderError()
         Object.keys(request.errors).forEach(function(key) {
-            console.log(key, request.errors[key][0])
             renderErrorFor(key, request.errors)
         })
 
@@ -102,14 +100,11 @@ function renderErrorFor(field, errors) {
 
 function nestedName(name){
     let split_name = name.split('.')
-    console.log(split_name)
 
     return split_name.length > 1 ? `${split_name[0]}[${split_name[1]}]` : name
 }
 
 function resetRenderError() {
-    console.log('entra')
-
     let inputField = $(`${form_nuevo_usuario} input:not([name="password_confirmation"]), ${form_nuevo_usuario} select:not(.no-validate)`)
     inputField.removeClass("is-invalid")
     inputField.addClass("is-valid")
@@ -122,8 +117,6 @@ function loading(target) {
 
 function addMsg()
 {
-    console.log('entra');
-
     const msgAlert = `
         <div class="alert alert-success d-none" role="alert">
             Usuario guardado correctamente.
@@ -139,13 +132,10 @@ function resetInputs() {
 }
 
 function reloadTable() {
-    console.log('entra a reload table')
-    $('.table-responsive').fadeOut('slow')
-
+    $('#usuarios-table.table-responsive').fadeOut('slow')
     const urlForm = '/admin/usuarios/lista'
     const target = '#ajaxTable'
     loading(target)
-
     $.get(urlForm, function (data) {
         $(`${target}`).html(data)
     })
