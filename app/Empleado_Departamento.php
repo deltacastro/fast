@@ -13,4 +13,23 @@ class Empleado_Departamento extends Model
     protected $fillable = [
         'empleado_id', 'cargo_id', 'departamento_id'
     ];
+
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+
+    protected $with = ['departamento', 'cargo'];
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class, 'cargo_id');
+    }
 }
