@@ -25,7 +25,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin'], function(){
         Route::get('lista', 'UsersController@list')->name('admin.user.list');
         Route::get('{user}/editar', 'UsersController@edit')->name('admin.user.edit');
         Route::post('{user}/editar', 'UsersController@update')->name('admin.user.update');
-        Route::delete('{user}', 'UsersController@destroy')->name('admin.user.destroy');
+        Route::delete('{user}', 'UsersController@toggle')->name('admin.user.destroy');
         Route::put('{user}', 'UsersController@restore')->name('admin.user.restore');
     });
 });
