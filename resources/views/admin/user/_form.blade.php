@@ -119,17 +119,17 @@
             <tbody>
                 @if (isset($user))
                     @foreach ($user->departamentosCargos as $row)
-                        <tr id="{{ $row->departamento->id }}-{{ $row->cargo->id }}">
+                        <tr id="departamentoCargo{{ $row->departamento->id }}-{{ $row->cargo->id }}">
                             <td>
-                                <input class="departamento" name="empleado_cargo[{{ $row->departamento->id }}-{{ $row->cargo->id }}][departamento_id]" value="{{ $row->departamento->id }}" hidden>
+                                <input class="departamento" name="empleado_cargo[departamentoCargo{{ $row->departamento->id }}-{{ $row->cargo->id }}][departamento_id]" value="{{ $row->departamento->id }}" hidden>
                                 {{ $row->departamento->nombre }}
                             </td>
                             <td>
-                                <input class="cargo" name="empleado_cargo[{{ $row->departamento->id }}-{{ $row->cargo->id }}][cargo_id]" value="{{ $row->cargo->id }}" hidden>
+                                <input class="cargo" name="empleado_cargo[departamentoCargo{{ $row->departamento->id }}-{{ $row->cargo->id }}][cargo_id]" value="{{ $row->cargo->id }}" hidden>
                                 {{ $row->cargo->nombre }}
                             </td>
                             <td>
-                                <button type="button" data-id="{{ $row->departamento->id }}-{{ $row->cargo->id }}" class="form-control btn btn-danger departamento-cargo-eliminar">Eliminar</button>
+                                <button type="button" data-id="departamentoCargo{{ $row->departamento->id }}-{{ $row->cargo->id }}" class="form-control btn btn-danger departamento-cargo-eliminar">Eliminar</button>
                             </td>
                         </tr>
                     @endforeach
