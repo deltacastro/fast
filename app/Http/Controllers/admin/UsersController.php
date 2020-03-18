@@ -83,6 +83,21 @@ class UsersController extends Controller
 
     public function update(User $user,UpdateRequest $request)
     {
+        $mPeople = $user->persona;
+        $peopleCreated = $mPeople->actualizar($request->people);
+        $request->merge(['people_id' => $peopleCreated->id]);
+        $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
+        $request->merge(['empleado' => $empleadoData]);
+        $mEmpleado = $user->empleado;
+        $empleadoCreated = $mEmpleado->actualizar($request->empleado);
+        $this->mEmpleadoDepartamento->where('empleado_id', $mEmpleado->id)->delete();
+        foreach ($request->empleado_cargo as $row) {
+            $this->mEmpleadoDepartamento->firstOrCreate([
+                'empleado_id' => $empleadoCreated->id,
+                'cargo_id' => $row['cargo_id'],
+                'departamento_id' => $row['departamento_id'],
+            ]);
+        }
         $this->mUser->actualizar($request->all(), $user);
         if ($request->ajax()) {
             return response()->json([
@@ -101,14 +116,26 @@ class UsersController extends Controller
         return view('admin.user._list', compact('users'));
     }
 
-    public function destroy(User $user, Request $request)
+    public function toggle($user_id, Request $request)
     {
         // dd('llega');
-        $user->delete();
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
+        $msg = null;
+        $eliminado = 0;
+        if ($user === null) {
+            $msg = 'Este usuario no existe';
+        } else if ($user->deleted_at === null) {
+            $user->delete();
+            $msg = 'Usuario eliminado.';
+            $eliminado = 1;
+        } else if($user->deleted_at) {
+            $user->restore();
+            $msg = 'Usuario reestablecido.';
+        }
         if ($request->ajax()) {
             return response()->json([
-                    'status' => 200,
-                    'msg' => 'Usuario desactivado.'
+                    'eliminado' => $eliminado,
+                    'msg' => $msg
                 ]);
         }
     }
