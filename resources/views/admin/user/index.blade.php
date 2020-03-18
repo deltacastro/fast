@@ -51,5 +51,5 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('js/controller/usuarios.js') }}"></script>
+    <script src="{{ asset('js/controller/usuarios/index.js') }}"></script>
 @endsection

@@ -70,8 +70,9 @@ class UsersController extends Controller
         return 200;
     }
 
-    public function edit(User $user, Request $request)
+    public function edit($user_id, Request $request)
     {
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
         $cargos = $this->mCargo->select('id', 'nombre', 'descripcion')->get();
         $departamentos = $this->mDepartamento->select('id', 'nombre', 'descripcion')->get();
         $estadosCiviles = $this->mEstadoCivil->select('id', 'nombre')->get();
@@ -81,8 +82,9 @@ class UsersController extends Controller
         return view('admin.user.create', compact('user'));
     }
 
-    public function update(User $user,UpdateRequest $request)
+    public function update($user_id,UpdateRequest $request)
     {
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
         $mPeople = $user->persona;
         $peopleCreated = $mPeople->actualizar($request->people);
         $request->merge(['people_id' => $peopleCreated->id]);
