@@ -35,4 +35,9 @@ class People extends Model
         $data = $model->fill($data)->save();
         return $data ? $this->find($model->id) : false;
     }
+
+    public function empleado()
+    {
+        return $this->hasOne(Empleado::class, 'people_id');
+    }
 }
