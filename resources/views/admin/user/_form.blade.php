@@ -32,19 +32,19 @@
     <div class="row">
         <div class="form-group col-12">
             <label for="people[nombre]">Nombre</label>
-            <input class="form-control" type="text" name="people[nombre]" value="{{ isset($user) ? '' : '' }}">
+            <input class="form-control" type="text" name="people[nombre]" value="{{ isset($user) ? $user->persona->nombre : '' }}">
             <span class="invalid-feedback" role="alert">
             </span>
         </div>
         <div class="form-group col-12 col-lg-6">
             <label for="people[paterno]">Apellido paterno</label>
-            <input class="form-control" type="text" name="people[paterno]" value="{{ isset($user) ? '' : '' }}">
+            <input class="form-control" type="text" name="people[paterno]" value="{{ isset($user) ? $user->persona->paterno : '' }}">
             <span class="invalid-feedback" role="alert">
             </span>
         </div>
         <div class="form-group col-12 col-lg-6">
             <label for="people[materno]">Apellido materno</label>
-            <input class="form-control" type="text" name="people[materno]">
+            <input class="form-control" type="text" name="people[materno]" value="{{ isset($user) ? $user->persona->materno : '' }}">
             <span class="invalid-feedback" role="alert">
             </span>
         </div>
@@ -53,21 +53,18 @@
     <div class="row">
         <div class="form-group col-12 col-lg-6">
             <label for="empleado[fecha_ingreso]">Fecha de ingreso</label>
-            <input class="form-control" type="date" name="empleado[fecha_ingreso]" value="{{ isset($user) ? '' : '' }}">
+            <input class="form-control" type="date" name="empleado[fecha_ingreso]" value="{{ isset($user->empleado) ? $user->empleado->fecha_ingreso->format('Y-m-d') : '' }}">
             <span class="invalid-feedback" role="alert">
             </span>
         </div>
         <div class="form-group col-12 col-lg-6">
             <label for="empleado[estadoCivil_id]">Estado civil</label>
-            {{-- <input class="form-control" type="text" name="empleado[estadoCivil_id]" value="{{ isset($user) ? '' : '' }}"> --}}
             <select class="custom-select" name="empleado[estadoCivil_id]">
-                {{-- <option value="null" selected disabled>Seeccione un departamento</option> --}}
                 @forelse ($estadosCiviles as $estadoCivil)
-                    <option value="{{$estadoCivil->id}}" title="{{$estadoCivil->nombre}}">{{$estadoCivil->nombre}}</option>
+                    <option value="{{$estadoCivil->id}}" title="{{$estadoCivil->nombre}}" {{ isset($user->empleado) && $user->empleado->estadoCivil_id == $estadoCivil->id ? 'selected' : '' }}>{{$estadoCivil->nombre}}</option>
                 @empty
                     <option value="null" disabled>...</option>
                 @endforelse
-
             </select>
             <span class="invalid-feedback" role="alert">
             </span>
@@ -120,7 +117,23 @@
                 </tr>
             </thead>
             <tbody>
-
+                @if (isset($user))
+                    @foreach ($user->departamentosCargos as $row)
+                        <tr id="{{ $row->departamento->id }}-{{ $row->cargo->id }}">
+                            <td>
+                                <input class="departamento" name="empleado_cargo[{{ $row->departamento->id }}-{{ $row->cargo->id }}][departamento_id]" value="{{ $row->departamento->id }}" hidden>
+                                {{ $row->departamento->nombre }}
+                            </td>
+                            <td>
+                                <input class="cargo" name="empleado_cargo[{{ $row->departamento->id }}-{{ $row->cargo->id }}][cargo_id]" value="{{ $row->cargo->id }}" hidden>
+                                {{ $row->cargo->nombre }}
+                            </td>
+                            <td>
+                                <button type="button" data-id="{{ $row->departamento->id }}-{{ $row->cargo->id }}" class="form-control btn btn-danger departamento-cargo-eliminar">Eliminar</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>
