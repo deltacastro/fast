@@ -30,10 +30,10 @@ class People extends Model
         return $data;
     }
 
-    public function actualizar($data, $model) {
+    public function actualizar($data) {
         $data = $this->buildDataFillable($data);
-        $data = $model->fill($data)->save();
-        return $data ? $this->find($model->id) : false;
+        $data = $this->fill($data)->save();
+        return $data ? $this->find($this->id) : false;
     }
 
     public function empleado()
