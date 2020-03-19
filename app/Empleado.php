@@ -44,4 +44,14 @@ class Empleado extends Model
     {
         return $this->hasMany(Empleado_Departamento::class, 'empleado_id');
     }
+
+    public function departamentos()
+    {
+        return $this->belongsToMany(Departamento::class, 'empleados_has_departamentos', 'empleado_id', 'departamento_id');
+    }
+
+    public function departamentosGrouped()
+    {
+        return $this->departamentos !== null ? $this->departamentos->unique() : null;
+    }
 }
