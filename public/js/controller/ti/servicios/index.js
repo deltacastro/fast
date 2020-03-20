@@ -1,0 +1,30 @@
+$(document).ready(function(){
+    $('.select-parent').on('change', function(){
+        const selectElement = $(this)
+        const user_id = selectElement.children("option:selected").val();
+        // $('#usuarios-table.table-responsive').fadeOut('slow')
+        const urlForm = `/filtro/usuario/${user_id}/departamentos`
+        const target = selectElement.data('target')
+        console.log(target)
+
+        const targetElement = $(target)
+        console.log(targetElement.attr('name'))
+        fillSelect(urlForm, targetElement)
+        // loading(target)
+
+    })
+
+    function loading(target) {
+        $(target).html(loadingAjax)
+    }
+
+    function fillSelect(urlForm, targetElement){
+        $.get(urlForm, function (resp) {
+            targetElement.find('option').remove()
+            resp.data.forEach(element => {
+                targetElement.append($('<option>').val(element.id).text(element.nombre).prop('title', element.descripcion))
+                console.log(element.nombre, element.id, element.descripcion)
+            })
+        })
+    }
+})
