@@ -23,7 +23,7 @@
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/fontawesome/css/all.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('/css/select2-bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/olcusa.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +38,7 @@
     <script src="{{asset('/js/feather.min.js')}}"></script>
     <script>
         $(document).ready(function(){
-            $.fn.select2.defaults.set( "theme", "bootstrap" );
+            $.fn.select2.defaults.set( "theme", "bootstrap4" );
         })
         const loadingAjax = `
             <div class="d-flex justify-content-center">
