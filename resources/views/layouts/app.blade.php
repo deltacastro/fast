@@ -13,6 +13,7 @@
     <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     <!-- Fonts -->
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
@@ -21,6 +22,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/fontawesome/css/all.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/olcusa.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -34,6 +37,9 @@
     </div>
     <script src="{{asset('/js/feather.min.js')}}"></script>
     <script>
+        $(document).ready(function(){
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
+        })
         const loadingAjax = `
             <div class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
