@@ -77,12 +77,23 @@ class User extends Authenticatable
         return $this->persona !== null ? $this->persona->empleado() : null;
     }
 
+    public function departamentos()
+    {
+        return $this->empleado !== null ? $this->empleado->departamentos() : null;
+    }
+
+    public function departamentosGrouped()
+    {
+        return $this->empleado !== null ? $this->empleado->departamentosGrouped() : null;
+    }
+
     public function departamentosCargos()
     {
         return $this->empleado !== null ? $this->empleado->departamentoCargos() : null;
     }
 
-    public function scopeBuscar($query, $param) {
+    public function scopeBuscar($query, $param)
+    {
         if ($param != null) {
             $query->where(function($query2) use ($param) {
                     $query2->orwhere('username', 'like', "%$param%")
