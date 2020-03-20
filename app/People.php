@@ -36,6 +36,11 @@ class People extends Model
         return $data ? $this->find($this->id) : false;
     }
 
+    public function nombreCompleto()
+    {
+        return "$this->nombre $this->paterno $this->materno";
+    }
+
     public function empleado()
     {
         return $this->hasOne(Empleado::class, 'people_id');
