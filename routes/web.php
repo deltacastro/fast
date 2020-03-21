@@ -36,6 +36,7 @@ Route::group(['namespace' => 'TI', 'prefix' => 'ti'], function(){
     });
     Route::group(['prefix' => 'equipo'], function () {
         Route::get('', 'EquiposController@index')->name('ti.equipo.index');
+        Route::get('lista', 'EquiposController@list')->name('ti.equipo.list');
     });
 });
 
