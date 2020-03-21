@@ -34,6 +34,9 @@ Route::group(['namespace' => 'TI', 'prefix' => 'ti'], function(){
     Route::group(['prefix' => 'servicio'], function(){
         Route::get('', 'ServicioController@index')->name('ti.servicio.index');
     });
+    Route::group(['prefix' => 'equipo'], function () {
+        Route::get('', 'EquiposController@index')->name('ti.equipo.index');
+    });
 });
 
 Route::group(['prefix' => 'filtro'], function () {
