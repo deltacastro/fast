@@ -15,7 +15,7 @@ class CreateTiposEquiposTable extends Migration
     {
         Schema::create('tipos_equipos', function (Blueprint $table) {
             $table->integerIncrements('id');
-            $table->string('nombre', 191);
+            $table->string('nombre', 191)->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
             $table->softDeletes();
