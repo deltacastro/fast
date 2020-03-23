@@ -37,6 +37,8 @@ Route::group(['namespace' => 'TI', 'prefix' => 'ti'], function(){
     Route::group(['prefix' => 'equipo'], function () {
         Route::get('', 'EquiposController@index')->name('ti.equipo.index');
         Route::get('lista', 'EquiposController@list')->name('ti.equipo.list');
+        Route::get('nuevo', 'EquiposController@create')->name('ti.equipo.create');
+        Route::post('nuevo', 'EquiposController@store')->name('ti.equipo.store');
     });
 });
 
