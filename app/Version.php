@@ -15,4 +15,9 @@ class Version extends Model
     protected $dates = [
         'relsease_at'
     ];
+
+    public function versionable()
+    {
+        return $this->morphTo();
+    }
 }
