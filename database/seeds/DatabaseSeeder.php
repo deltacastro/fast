@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CargosTableSeeder::class);
         $this->call(EstadoCivilTableSeeder::class);
         $this->call(TiposEquiposTableSeeder::class);
+        $this->call(SistemasOperativosTableSeeder::class);
     }
 }
