@@ -6,7 +6,7 @@
             <h2>Adminsitrador de equipos</h2>
         </div>
         <div class="card-body">
-            <button class="btn btn-primary col-12 col-md-6 col-lg-3 nuevoUsuario" data-target="#modal-generic">
+            <button class="btn btn-primary col-12 col-md-6 col-lg-3 nuevoEquipo" data-target="#modal-generic">
                 Nuevo equipo
             </button>
 
