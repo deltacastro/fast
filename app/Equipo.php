@@ -12,4 +12,16 @@ class Equipo extends Model
     protected $fillable = [
         'tipo_id', 'responsable_id', 'nombre', 'observaciones'
     ];
+
+    public function scopeBuscar($query, $param)
+    {
+        if ($param != null) {
+            $query->where(function($query2) use ($param) {
+                    $query2->orwhere('nombre', 'like', "%$param%")
+                        ->orwhere('observaciones', 'like', "%$param%")
+                        ->orwhere('created_at', 'like', "%$param%");
+                });
+        }
+        return $query;
+    }
 }
