@@ -13,7 +13,6 @@ class TiposEquiposTableSeeder extends Seeder
      */
     public function run()
     {
-        // Matrimonio y filiación. Soltero/a. Casado/a. Viudo/a. Divorciado/a.
         $date = new Carbon;
         $data = [
             ['nombre' => 'Computadora de escritorio', 'descripcion' => 'Computadora estacionaria', 'created_at' => $date, 'updated_at' => $date],
