@@ -6,6 +6,8 @@ use App\Equipo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\People;
+use App\Programa;
+use App\Sistema_Operativo;
 use App\Tipo_Equipo;
 
 class EquiposController extends Controller
@@ -15,6 +17,8 @@ class EquiposController extends Controller
         $this->mEquipo = new Equipo;
         $this->mPeople = new People;
         $this->mTipoEquipo = new Tipo_Equipo;
+        $this->mSistemaOperativo = new Sistema_Operativo;
+        $this->mPrograma = new Programa;
     }
 
     public function index()
@@ -35,7 +39,9 @@ class EquiposController extends Controller
     {
         $personas = $this->mPeople->get();
         $tiposEquipos = $this->mTipoEquipo->get();
-        return view('ti.equipo._form', compact('personas', 'tiposEquipos'));
+        $sistemasOperativos = $this->mSistemaOperativo->with('versiones')->get();
+        $programas = $this->mPrograma->get();
+        return view('ti.equipo._form', compact('personas', 'tiposEquipos', 'sistemasOperativos', 'programas'));
     }
 
     public function store()
