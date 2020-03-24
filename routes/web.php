@@ -44,6 +44,7 @@ Route::group(['namespace' => 'TI', 'prefix' => 'ti'], function(){
 
 Route::group(['prefix' => 'filtro'], function () {
     Route::get('usuario/{user}/departamentos', 'UsuariosController@departamentos')->name('user.departamentos');
+    Route::get('so/{so}/versiones', 'SistemasOperativosController@versiones')->name('so.versiones');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
