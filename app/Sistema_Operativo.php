@@ -17,4 +17,9 @@ class Sistema_Operativo extends Model
     {
         return $this->morphMany(Version::class, 'versionable');
     }
+
+    public function versionesGrouped()
+    {
+        return $this->versiones !== null ? $this->versiones->unique() : null;
+    }
 }
