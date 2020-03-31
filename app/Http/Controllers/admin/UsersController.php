@@ -53,13 +53,13 @@ class UsersController extends Controller
         $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
         $request->merge(['empleado' => $empleadoData]);
         $empleadoCreated = $this->mEmpleado->guardar($request->empleado);
-        // foreach ($request->empleado_cargo as $row) {
-        //     $this->mEmpleadoDepartamento->firstOrCreate([
-        //         'empleado_id' => $empleadoCreated->id,
-        //         'cargo_id' => $row->cargo_id,
-        //         'departamento_id' => $row->departamento_id,
-        //     ]);
-        // }
+        foreach ($request->empleado_cargo as $row) {
+            $this->mEmpleadoDepartamento->firstOrCreate([
+                'empleado_id' => $empleadoCreated->id,
+                'cargo_id' => $row['cargo_id'],
+                'departamento_id' => $row['departamento_id'],
+            ]);
+        }
         $this->mUser->guardar($request->all());
         if ($request->ajax()) {
             return response()->json([
@@ -70,16 +70,36 @@ class UsersController extends Controller
         return 200;
     }
 
-    public function edit(User $user, Request $request)
+    public function edit($user_id, Request $request)
     {
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
+        $cargos = $this->mCargo->select('id', 'nombre', 'descripcion')->get();
+        $departamentos = $this->mDepartamento->select('id', 'nombre', 'descripcion')->get();
+        $estadosCiviles = $this->mEstadoCivil->select('id', 'nombre')->get();
         if ($request->ajax()) {
-            return view('admin.user._form', compact('user'));
+            return view('admin.user._form', compact('user', 'cargos', 'departamentos', 'estadosCiviles'));
         }
         return view('admin.user.create', compact('user'));
     }
 
-    public function update(User $user,UpdateRequest $request)
+    public function update($user_id,UpdateRequest $request)
     {
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
+        $mPeople = $user->persona;
+        $peopleCreated = $mPeople->actualizar($request->people);
+        $request->merge(['people_id' => $peopleCreated->id]);
+        $empleadoData = array_merge($request->empleado, ['people_id' => $peopleCreated->id]);
+        $request->merge(['empleado' => $empleadoData]);
+        $mEmpleado = $user->empleado;
+        $empleadoCreated = $mEmpleado->actualizar($request->empleado);
+        $this->mEmpleadoDepartamento->where('empleado_id', $mEmpleado->id)->delete();
+        foreach ($request->empleado_cargo as $row) {
+            $this->mEmpleadoDepartamento->firstOrCreate([
+                'empleado_id' => $empleadoCreated->id,
+                'cargo_id' => $row['cargo_id'],
+                'departamento_id' => $row['departamento_id'],
+            ]);
+        }
         $this->mUser->actualizar($request->all(), $user);
         if ($request->ajax()) {
             return response()->json([
@@ -98,14 +118,26 @@ class UsersController extends Controller
         return view('admin.user._list', compact('users'));
     }
 
-    public function destroy(User $user, Request $request)
+    public function toggle($user_id, Request $request)
     {
         // dd('llega');
-        $user->delete();
+        $user = $this->mUser->withTrashed()->where('id', $user_id)->first();
+        $msg = null;
+        $eliminado = 0;
+        if ($user === null) {
+            $msg = 'Este usuario no existe';
+        } else if ($user->deleted_at === null) {
+            $user->delete();
+            $msg = 'Usuario eliminado.';
+            $eliminado = 1;
+        } else if($user->deleted_at) {
+            $user->restore();
+            $msg = 'Usuario reestablecido.';
+        }
         if ($request->ajax()) {
             return response()->json([
-                    'status' => 200,
-                    'msg' => 'Usuario desactivado.'
+                    'eliminado' => $eliminado,
+                    'msg' => $msg
                 ]);
         }
     }

@@ -12,3 +12,12 @@
         </form>
     </div>
 @endsection
+
+@section('javascript')
+<script src="{{ asset('js/controller/ti/servicios/index.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+@endsection

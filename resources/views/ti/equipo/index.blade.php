@@ -3,15 +3,15 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h2>Adminsitrador de usuarios</h2>
+            <h2>Adminsitrador de equipos</h2>
         </div>
         <div class="card-body">
-            <button class="btn btn-primary col-12 col-md-6 col-lg-3 nuevoUsuario" data-target="#modal-generic">
-                Nuevo usuario
+            <button class="btn btn-primary col-12 col-md-6 col-lg-3 nuevoEquipo" data-target="#modal-generic">
+                Nuevo equipo
             </button>
 
             <div id="ajaxTable" class="px-0 col-12">
-                {{-- @include('admin.user._list') --}}
+                {{-- @include('ti.equipo._list') --}}
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
@@ -51,5 +51,6 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('js/controller/usuarios/index.js') }}"></script>
+    <script src="{{ asset('js/controller/ti/equipos/index.js') }}"></script>
 @endsection
+

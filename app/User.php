@@ -67,7 +67,33 @@ class User extends Authenticatable
         return $data ? $this->find($model->id) : false;
     }
 
-    public function scopeBuscar($query, $param) {
+    public function persona()
+    {
+        return $this->belongsTo(People::class, 'people_id');
+    }
+
+    public function empleado()
+    {
+        return $this->persona !== null ? $this->persona->empleado() : null;
+    }
+
+    public function departamentos()
+    {
+        return $this->empleado !== null ? $this->empleado->departamentos() : null;
+    }
+
+    public function departamentosGrouped()
+    {
+        return $this->empleado !== null ? $this->empleado->departamentosGrouped() : null;
+    }
+
+    public function departamentosCargos()
+    {
+        return $this->empleado !== null ? $this->empleado->departamentoCargos() : null;
+    }
+
+    public function scopeBuscar($query, $param)
+    {
         if ($param != null) {
             $query->where(function($query2) use ($param) {
                     $query2->orwhere('username', 'like', "%$param%")

@@ -34,9 +34,24 @@ class Empleado extends Model
         return $data;
     }
 
-    public function actualizar($data, $model) {
+    public function actualizar($data) {
         $data = $this->buildDataFillable($data);
-        $data = $model->fill($data)->save();
-        return $data ? $this->find($model->id) : false;
+        $data = $this->fill($data)->save();
+        return $data ? $this->find($this->id) : false;
+    }
+
+    public function departamentoCargos()
+    {
+        return $this->hasMany(Empleado_Departamento::class, 'empleado_id');
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsToMany(Departamento::class, 'empleados_has_departamentos', 'empleado_id', 'departamento_id');
+    }
+
+    public function departamentosGrouped()
+    {
+        return $this->departamentos !== null ? $this->departamentos->unique() : null;
     }
 }

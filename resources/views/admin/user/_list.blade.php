@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div id="usuarios-table" class="table-responsive">
     <form id="delete-form" method="POST" style="display: none;">
         @csrf
         @method('delete')
